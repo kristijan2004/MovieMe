@@ -8,7 +8,7 @@ const NavigationMain = styled.div`
   font-size: 17px;
   justify-content: space-between;
 `;
-const Logo = styled.p`
+const Logo = styled.a`
   width: 200px;
   font-size: 20px;
   font-family: 'Raleway', sans-serif;
@@ -18,6 +18,7 @@ const Logo = styled.p`
   text-align: center;
   font-weight: 600;
   color: white;
+  text-decoration: none;
   @media only screen and (max-width: 550px) {
     font-size: 15px;
     width: 100px;
@@ -61,7 +62,9 @@ const NavigationBar = () => {
   const { onChangeInputValue, FetchMovie } = useContext(Context);
   return (
     <NavigationMain>
-      <Logo>MovieMe</Logo>
+      <Logo id='logo' href='/'>
+        MovieMe
+      </Logo>
       <Search
         onSubmit={(e) => {
           e.preventDefault();

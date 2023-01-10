@@ -31,7 +31,6 @@ export const Provider = (props) => {
   const [movies, setMovies] = useState([]);
   const [paginatedMovies, setPaginatedMovies] = useState([]);
   const [paginateButtons, setPaginateButtons] = useState(0);
-  const [inputValueMovies, setInputValueMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [genreOrPopular, setGenreOrPopular] = useState('top_rated');
   const [inputValue, setInputValue] = useState('');
@@ -57,7 +56,6 @@ export const Provider = (props) => {
   useEffect(() => {
     if (page === 1) {
       document.getElementById('prevBtn').setAttribute('disabled', true);
-
       document.getElementById('prevBtn').style.opacity = 0.5;
     } else {
       document.getElementById('prevBtn').removeAttribute('disabled');
@@ -91,7 +89,7 @@ export const Provider = (props) => {
     let genre = '';
 
     genreIdFromMovie.forEach((element) => {
-      let generatedGenre = genreList.find((el) => el.number == element);
+      let generatedGenre = genreList.find((el) => el.number === element);
       genre += generatedGenre.genre;
     });
 
@@ -117,7 +115,6 @@ export const Provider = (props) => {
         setInputValue,
         onChangeInputValue,
         FetchMovie,
-        inputValueMovies,
         GenreGenerator,
         FetchMoviesBy,
         genreList,

@@ -53,7 +53,14 @@ const MoviesContainer = (props) => {
   const buttonsArr = Array.from({ length: paginateButtons }, (v, i) => i);
   return (
     <Test>
-      <Btn img={arrow} id='prevBtn' onClick={() => setPage(page - 1)}></Btn>
+      <Btn
+        img={arrow}
+        id='prevBtn'
+        onClick={() => (
+          setPage(page - 1),
+          window.scrollTo({ top: 100, left: 100, behavior: 'smooth' })
+        )}
+      ></Btn>
       <MainCont>
         <Title>{title ? title.slice(0, -1) : 'Top Rated Movies'}</Title>
         <Container>
@@ -76,9 +83,10 @@ const MoviesContainer = (props) => {
       <Btn
         img={arrow}
         opposite='180deg'
-        onClick={() => {
-          setPage(page + 1);
-        }}
+        onClick={() => (
+          setPage(page + 1),
+          window.scrollTo({ top: 100, left: 100, behavior: 'smooth' })
+        )}
       ></Btn>
     </Test>
   );

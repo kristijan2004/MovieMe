@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Context } from './Context';
+import React from 'react';
 import styled from 'styled-components';
-import MovieCard from './MovieCard';
 import NavigationBar from './Navigation';
 import MoviesContainer from './MoviesContainer';
 import ButtonSideBar from './ButtonSideBar';
@@ -16,7 +14,6 @@ const Main = styled.div`
 `;
 
 const Homepage = () => {
-  const API_IMG = 'https://image.tmdb.org/t/p/w500';
   return (
     <>
       <NavigationBar />
