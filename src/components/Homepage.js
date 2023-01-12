@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import NavigationBar from './Navigation';
 import MoviesContainer from './MoviesContainer';
 import ButtonSideBar from './ButtonSideBar';
 import QueryButtonContainer from './QueryButtonContainer';
+import LoadingSpinner from './LoadingSpinner';
+import { Context } from './Context';
 
 const Main = styled.div`
   display: flex;
@@ -14,6 +16,7 @@ const Main = styled.div`
 `;
 
 const Homepage = () => {
+  const { loading } = useContext(Context);
   return (
     <>
       <NavigationBar />
@@ -22,6 +25,7 @@ const Homepage = () => {
         <ButtonSideBar />
         <MoviesContainer />
       </Main>
+      <LoadingSpinner />
     </>
   );
 };

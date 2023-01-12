@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Context } from './Context';
+import noImage from '../Images/noimage.png';
 const API_IMG = 'https://image.tmdb.org/t/p/w500';
 
 var CardHeight = '18rem';
@@ -63,7 +64,10 @@ const MovieCard = (props) => {
   const { GenreGenerator } = useContext(Context);
   return (
     <MovieCont>
-      <MovieImg src={API_IMG + props.img} />
+      <MovieImg
+        src={props.img ? API_IMG + props.img : noImage}
+        alt={props.name}
+      />
       <MovieInfoCont>
         <MovieName>{props.name}</MovieName>
         <MovieRating>{props.vote}</MovieRating>

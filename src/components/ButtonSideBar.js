@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const Main = styled.div`
   box-sizing: border-box;
-  width: 200px;
+  max-width: 250px;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -13,7 +13,6 @@ const Main = styled.div`
   top: 0;
   background-color: #1a1c20;
   padding-top: 1rem;
-
   @media (max-width: 768px) {
     display: none;
   }

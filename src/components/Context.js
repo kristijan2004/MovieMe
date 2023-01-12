@@ -36,6 +36,7 @@ export const Provider = (props) => {
   const [inputValue, setInputValue] = useState('');
   const [genreToggle, setGenreToggle] = useState(false);
   const [title, setTitle] = useState('');
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetch(API_URL)
       .then((res) => res.json())
@@ -62,23 +63,43 @@ export const Provider = (props) => {
       document.getElementById('prevBtn').style.opacity = 1;
     }
   }, [page]);
+  useEffect(() => {
+    if (loading) {
+      document.querySelector('.loading-spinner').style.opacity = 0.5;
+      document.querySelector('.loading-spinner').style.display = 'flex';
+    } else {
+      document.querySelector('.loading-spinner').style.opacity = 0;
+      document.querySelector('.loading-spinner').style.display = 'none';
+    }
+  }, [loading]);
   const onChangeInputValue = (e) => {
     setInputValue(e);
   };
-  const FetchMoviesBy = (ratedOrPopular, pages) => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${ratedOrPopular}?api_key=534704e3c67d5d10bd7ebbe2f8c20c43&lang=en&page=${pages}`
-    )
-      .then((res) => res.json())
-      .then((data) => setMovies(data.results));
-  };
-  const FetchMovieByGenre = (genre, page) => {
-    fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=534704e3c67d5d10bd7ebbe2f8c20c43&with_genres=${genre}&page=${page}&lang=en&sort_by=original_title.asc`
-    )
-      .then((res) => res.json())
-      .then((data) => setMovies(data.results));
-  };
+  async function FetchMoviesBy(ratedOrPopular, pages) {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${ratedOrPopular}?api_key=534704e3c67d5d10bd7ebbe2f8c20c43&lang=en&page=${pages}`
+      );
+      const data = await response.json();
+      setMovies(data.results);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
+  async function FetchMovieByGenre(genre, page) {
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=534704e3c67d5d10bd7ebbe2f8c20c43&with_genres=${genre}&page=${page}&lang=en&sort_by=original_title.asc`
+      );
+      const data = await response.json();
+      setMovies(data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const FetchMovie = () => {
     fetch(`${API_SEARCH + inputValue}`)
       .then((res) => res.json())
@@ -130,7 +151,8 @@ export const Provider = (props) => {
         setPage,
         genreOrPopular,
         setGenreOrPopular,
-        FetchGenreOrPopular
+        FetchGenreOrPopular,
+        loading
       }}
     >
       {props.children}

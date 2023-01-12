@@ -28,19 +28,49 @@ const Search = styled.form`
   width: 60%;
   display: flex;
   align-items: center;
-  input {
-    border: none;
-    background-color: transparent;
+  position: relative;
+  &::before {
+    content: 'Search Movies';
+    width: 100px;
+    height: 0px;
     color: white;
-    &:focus-visible {
-      outline: none;
+    font-size: 13px;
+    position: absolute;
+    top: 20px;
+    left: 5px;
+    transition: 0.6s;
+  }
+  &:focus-within {
+    input {
+      border-top: 1px solid white;
     }
-    &::placeholder {
-      color: white;
+    &::before {
+      top: 0px;
     }
   }
   @media only screen and (max-width: 768px) {
     width: 40%;
+  }
+`;
+const Input = styled.input`
+  border: none;
+  background-color: transparent;
+  color: white;
+  width: 250px;
+  display: inline-block;
+  position: relative;
+  &::before {
+    content: 'asd';
+    display: inline-block;
+    cursor: pointer;
+    width: 10px;
+    height: 10px;
+  }
+  &:focus-visible {
+    outline: none;
+  }
+  &::placeholder {
+    color: white;
   }
 `;
 const LogInButton = styled.button`
@@ -66,13 +96,13 @@ const NavigationBar = () => {
         MovieMe
       </Logo>
       <Search
+        id='form'
         onSubmit={(e) => {
           e.preventDefault();
           FetchMovie();
         }}
       >
-        <input
-          placeholder='Search Movies'
+        <Input
           type='text'
           id='searchInput'
           autoComplete='off'
