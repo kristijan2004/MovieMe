@@ -62,6 +62,12 @@ export const Provider = (props) => {
       document.getElementById('prevBtn').removeAttribute('disabled');
       document.getElementById('prevBtn').style.opacity = 1;
     }
+    let url = new URL(window.location);
+    let params = new URLSearchParams(url.search);
+    params.set('movieId', '1');
+    url.search = params.toString();
+    console.log(params.toString());
+    console.log(url);
   }, [page]);
   useEffect(() => {
     if (loading) {
