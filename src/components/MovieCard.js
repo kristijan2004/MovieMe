@@ -62,9 +62,9 @@ const MovieRating = styled.p`
 `;
 
 const MovieCard = (props) => {
-  const { GenreGenerator } = useContext(Context);
+  const { GenreGenerator, setMovie } = useContext(Context);
   return (
-    <Link to={`/details/${props.id}`}>
+    <Link to={`/details/${props.id}`} onClick={() => setMovie({})}>
       <MovieCont>
         <MovieImg
           src={props.img ? API_IMG + props.img : noImage}

@@ -40,14 +40,12 @@ const Search = styled.form`
     left: 5px;
     transition: 0.6s;
   }
-  &:focus-within {
+  /* &:focus-within {
     input {
-      border-top: 1px solid white;
     }
     &::before {
-      top: 0px;
     }
-  }
+  } */
   @media only screen and (max-width: 768px) {
     width: 40%;
   }
@@ -90,6 +88,10 @@ const LogInButton = styled.button`
 
 const NavigationBar = () => {
   const { onChangeInputValue, FetchMovie } = useContext(Context);
+  function Blur(e) {
+    if (e.keyCode == 13) {
+    }
+  }
   return (
     <NavigationMain>
       <Logo id='logo' href='/'>
@@ -97,14 +99,18 @@ const NavigationBar = () => {
       </Logo>
       <Search
         id='form'
+        onFocus={() => document.getElementById('form').classList.add('top')}
+        onBlur={() => document.getElementById('form').classList.remove('top')}
         onSubmit={(e) => {
           e.preventDefault();
           FetchMovie();
+          document.getElementById('form').classList.remove('top');
         }}
       >
         <Input
           type='text'
           id='searchInput'
+          onKeyUp={(e) => e.keyCode === 13 && e.target.blur()}
           autoComplete='off'
           onChange={(e) => onChangeInputValue(e.target.value)}
         />

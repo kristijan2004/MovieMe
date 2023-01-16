@@ -8,6 +8,15 @@ body {
 a {
   text-decoration: none;
 }
+.top::before {
+  top: 0px !important;
+}
+.top input {
+  border-top: 1px solid white;
+}
+input::placeholder {
+  font-size: 20px;
+}
 
 .loading-spinner {
   display: none;

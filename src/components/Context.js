@@ -37,6 +37,7 @@ export const Provider = (props) => {
   const [genreToggle, setGenreToggle] = useState(false);
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(false);
+  const [movie, setMovie] = useState({});
   useEffect(() => {
     fetch(API_URL)
       .then((res) => res.json())
@@ -54,16 +55,6 @@ export const Provider = (props) => {
       ? FetchMoviesBy(genreOrPopular, page)
       : FetchMovieByGenre(genreOrPopular, page);
   }, [page]);
-
-  useEffect(() => {
-    if (loading) {
-      document.querySelector('.loading-spinner').style.opacity = 0.5;
-      document.querySelector('.loading-spinner').style.display = 'flex';
-    } else {
-      document.querySelector('.loading-spinner').style.opacity = 0;
-      document.querySelector('.loading-spinner').style.display = 'none';
-    }
-  }, [loading]);
 
   const onChangeInputValue = (e) => {
     setInputValue(e);
@@ -93,6 +84,7 @@ export const Provider = (props) => {
       console.log(error);
     }
   }
+
   const FetchMovie = () => {
     fetch(`${API_SEARCH + inputValue}`)
       .then((res) => res.json())
@@ -146,7 +138,9 @@ export const Provider = (props) => {
         setGenreOrPopular,
         FetchGenreOrPopular,
         loading,
-        setLoading
+        setLoading,
+        movie,
+        setMovie
       }}
     >
       {props.children}
