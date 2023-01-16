@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from './Context';
 import styled from 'styled-components';
 import MovieCard from './MovieCard';
@@ -49,8 +49,18 @@ const Btn = styled.button`
 const MoviesContainer = (props) => {
   const API_IMG = 'https://image.tmdb.org/t/p/w500';
   const { title } = useContext(Context);
-  const { movies, paginateButtons, page, setPage } = useContext(Context);
+  const { movies, paginateButtons, page, setPage, setLoading } =
+    useContext(Context);
   const buttonsArr = Array.from({ length: paginateButtons }, (v, i) => i);
+  useEffect(() => {
+    if (page === 1) {
+      document.getElementById('prevBtn').setAttribute('disabled', true);
+      document.getElementById('prevBtn').style.opacity = 0.5;
+    } else {
+      document.getElementById('prevBtn').removeAttribute('disabled');
+      document.getElementById('prevBtn').style.opacity = 1;
+    }
+  }, [page]);
   return (
     <Test>
       <Btn
@@ -71,6 +81,7 @@ const MoviesContainer = (props) => {
               name={el.title}
               genre={el.genre_ids}
               vote={el.vote_average}
+              id={el.id}
             />
           ))}
         </Container>

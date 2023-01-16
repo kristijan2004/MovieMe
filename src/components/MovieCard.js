@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Context } from './Context';
+import { Link } from 'react-router-dom';
 import noImage from '../Images/noimage.png';
 const API_IMG = 'https://image.tmdb.org/t/p/w500';
 
@@ -63,17 +64,19 @@ const MovieRating = styled.p`
 const MovieCard = (props) => {
   const { GenreGenerator } = useContext(Context);
   return (
-    <MovieCont>
-      <MovieImg
-        src={props.img ? API_IMG + props.img : noImage}
-        alt={props.name}
-      />
-      <MovieInfoCont>
-        <MovieName>{props.name}</MovieName>
-        <MovieRating>{props.vote}</MovieRating>
-        <MovieInfo>{GenreGenerator(props.genre)}</MovieInfo>
-      </MovieInfoCont>
-    </MovieCont>
+    <Link to={`/details/${props.id}`}>
+      <MovieCont>
+        <MovieImg
+          src={props.img ? API_IMG + props.img : noImage}
+          alt={props.name}
+        />
+        <MovieInfoCont>
+          <MovieName>{props.name}</MovieName>
+          <MovieRating>{props.vote}</MovieRating>
+          <MovieInfo>{GenreGenerator(props.genre)}</MovieInfo>
+        </MovieInfoCont>
+      </MovieCont>
+    </Link>
   );
 };
 

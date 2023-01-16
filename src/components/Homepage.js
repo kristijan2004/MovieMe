@@ -24,8 +24,8 @@ const Homepage = () => {
         <QueryButtonContainer />
         <ButtonSideBar />
         <MoviesContainer />
+        <LoadingSpinner />
       </Main>
-      <LoadingSpinner />
     </>
   );
 };

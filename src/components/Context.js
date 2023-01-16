@@ -54,21 +54,7 @@ export const Provider = (props) => {
       ? FetchMoviesBy(genreOrPopular, page)
       : FetchMovieByGenre(genreOrPopular, page);
   }, [page]);
-  useEffect(() => {
-    if (page === 1) {
-      document.getElementById('prevBtn').setAttribute('disabled', true);
-      document.getElementById('prevBtn').style.opacity = 0.5;
-    } else {
-      document.getElementById('prevBtn').removeAttribute('disabled');
-      document.getElementById('prevBtn').style.opacity = 1;
-    }
-    let url = new URL(window.location);
-    let params = new URLSearchParams(url.search);
-    params.set('movieId', '1');
-    url.search = params.toString();
-    console.log(params.toString());
-    console.log(url);
-  }, [page]);
+
   useEffect(() => {
     if (loading) {
       document.querySelector('.loading-spinner').style.opacity = 0.5;
@@ -78,6 +64,7 @@ export const Provider = (props) => {
       document.querySelector('.loading-spinner').style.display = 'none';
     }
   }, [loading]);
+
   const onChangeInputValue = (e) => {
     setInputValue(e);
   };
@@ -158,7 +145,8 @@ export const Provider = (props) => {
         genreOrPopular,
         setGenreOrPopular,
         FetchGenreOrPopular,
-        loading
+        loading,
+        setLoading
       }}
     >
       {props.children}
