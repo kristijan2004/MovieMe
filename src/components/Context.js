@@ -34,10 +34,12 @@ export const Provider = (props) => {
   const [page, setPage] = useState(1);
   const [genreOrPopular, setGenreOrPopular] = useState('top_rated');
   const [inputValue, setInputValue] = useState('');
-  const [genreToggle, setGenreToggle] = useState(false);
+  // const [genreToggle, setGenreToggle] = useState(false);
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState({});
+  const [openModal, setOpenModal] = useState(false);
+  const [loggedUser, setLoggedUser] = useState({});
   useEffect(() => {
     fetch(API_URL)
       .then((res) => res.json())
@@ -110,9 +112,7 @@ export const Provider = (props) => {
     let PrevNextButtons = Math.ceil(items.length / pageSize);
     setPaginateButtons(PrevNextButtons);
   };
-  const FetchGenreOrPopular = (prevNext) => {
-    console.log(page);
-  };
+
   return (
     <Context.Provider
       value={{
@@ -125,8 +125,6 @@ export const Provider = (props) => {
         FetchMoviesBy,
         genreList,
         FetchMovieByGenre,
-        genreToggle,
-        setGenreToggle,
         paginate,
         paginateButtons,
         paginatedMovies,
@@ -136,11 +134,14 @@ export const Provider = (props) => {
         setPage,
         genreOrPopular,
         setGenreOrPopular,
-        FetchGenreOrPopular,
         loading,
         setLoading,
         movie,
-        setMovie
+        setMovie,
+        openModal,
+        setOpenModal,
+        loggedUser,
+        setLoggedUser
       }}
     >
       {props.children}

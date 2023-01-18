@@ -1,12 +1,24 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Context } from './Context';
+import { Link } from 'react-router-dom';
 
 const NavigationMain = styled.div`
   display: flex;
   background-color: #fc4343;
   font-size: 17px;
   justify-content: space-between;
+  .backBtn {
+    padding: 0px 10px;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+    @media only screen and (max-width: 550px) {
+      font-size: 15px;
+    }
+  }
 `;
 const Logo = styled.a`
   width: 200px;
@@ -87,36 +99,56 @@ const LogInButton = styled.button`
 `;
 
 const NavigationBar = () => {
-  const { onChangeInputValue, FetchMovie } = useContext(Context);
-  function Blur(e) {
-    if (e.keyCode == 13) {
-    }
-  }
+  const {
+    onChangeInputValue,
+    FetchMovie,
+    setOpenModal,
+    loggedUser,
+    setLoggedUser
+  } = useContext(Context);
+
   return (
     <NavigationMain>
       <Logo id='logo' href='/'>
         MovieMe
       </Logo>
-      <Search
-        id='form'
-        onFocus={() => document.getElementById('form').classList.add('top')}
-        onBlur={() => document.getElementById('form').classList.remove('top')}
-        onSubmit={(e) => {
-          e.preventDefault();
-          FetchMovie();
-          document.getElementById('form').classList.remove('top');
-        }}
-      >
-        <Input
-          type='text'
-          id='searchInput'
-          onKeyUp={(e) => e.keyCode === 13 && e.target.blur()}
-          autoComplete='off'
-          onChange={(e) => onChangeInputValue(e.target.value)}
-        />
-        {/* <button onClick={(e) => FetchMovie()}>Click</button> */}
-      </Search>
-      <LogInButton>Log In</LogInButton>
+      {window.location.href.includes('details') ? (
+        <Link className='backBtn' to='/'>
+          Back
+        </Link>
+      ) : (
+        <Search
+          id='form'
+          onFocus={() => document.getElementById('form').classList.add('top')}
+          onBlur={() => {
+            document.getElementById('form').classList.remove('top');
+            document.getElementById('searchInput').value = '';
+          }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            FetchMovie();
+            document.getElementById('form').classList.remove('top');
+          }}
+        >
+          <Input
+            type='text'
+            id='searchInput'
+            onKeyUp={(e) => e.keyCode === 13 && e.target.blur()}
+            autoComplete='off'
+            onChange={(e) => onChangeInputValue(e.target.value)}
+          />
+          {/* <button onClick={(e) => FetchMovie()}>Click</button> */}
+        </Search>
+      )}
+
+      {loggedUser.Username !== undefined ? (
+        <p>
+          welcome back , {loggedUser.Username}{' '}
+          <button onClick={() => setLoggedUser({})}>Logout</button>
+        </p>
+      ) : (
+        <LogInButton onClick={() => setOpenModal(true)}>Log In</LogInButton>
+      )}
     </NavigationMain>
   );
 };

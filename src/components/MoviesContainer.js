@@ -47,11 +47,10 @@ const Btn = styled.button`
 `;
 
 const MoviesContainer = (props) => {
-  const API_IMG = 'https://image.tmdb.org/t/p/w500';
+  // const API_IMG = 'https://image.tmdb.org/t/p/w500';
   const { title } = useContext(Context);
-  const { movies, paginateButtons, page, setPage, setLoading } =
-    useContext(Context);
-  const buttonsArr = Array.from({ length: paginateButtons }, (v, i) => i);
+  const { movies, page, setPage } = useContext(Context);
+  // const buttonsArr = Array.from({ length: paginateButtons }, (v, i) => i);
   useEffect(() => {
     if (page === 1) {
       document.getElementById('prevBtn').setAttribute('disabled', true);
@@ -61,6 +60,7 @@ const MoviesContainer = (props) => {
       document.getElementById('prevBtn').style.opacity = 1;
     }
   }, [page]);
+
   return (
     <Test>
       <Btn

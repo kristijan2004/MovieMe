@@ -12,6 +12,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Homepage />} />
           <Route path='/details/:id' element={<MovieDetails />} />
+          <Route path='*' element={<p>error page</p>} />
         </Routes>
       </Provider>
     </div>
