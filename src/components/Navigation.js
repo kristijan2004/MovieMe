@@ -19,23 +19,24 @@ const NavigationMain = styled.div`
       font-size: 15px;
     }
   }
-`;
-const Logo = styled.a`
-  width: 200px;
-  font-size: 20px;
-  font-family: 'Raleway', sans-serif;
-  background-color: #c83232;
-  margin: 0;
-  padding: 15px 10px;
-  text-align: center;
-  font-weight: 600;
-  color: white;
-  text-decoration: none;
-  @media only screen and (max-width: 550px) {
-    font-size: 15px;
-    width: 100px;
+  #logo {
+    width: 200px;
+    font-size: 20px;
+    font-family: 'Raleway', sans-serif;
+    background-color: #c83232;
+    margin: 0;
+    padding: 15px 10px;
+    text-align: center;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    @media only screen and (max-width: 550px) {
+      font-size: 15px;
+      width: 100px;
+    }
   }
 `;
+
 const Search = styled.form`
   width: 60%;
   display: flex;
@@ -97,6 +98,22 @@ const LogInButton = styled.button`
     margin-right: 0;
   }
 `;
+const WelcomeP = styled.p`
+  color: white;
+  text-transform: capitalize;
+  border-top: 1px solid white;
+  margin-right: 10px;
+  button {
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+    font-size: 17px;
+    margin-left: 3px;
+    cursor: pointer;
+  }
+`;
 
 const NavigationBar = () => {
   const {
@@ -109,9 +126,10 @@ const NavigationBar = () => {
 
   return (
     <NavigationMain>
-      <Logo id='logo' href='/'>
+      <Link id='logo' to='/'>
         MovieMe
-      </Logo>
+      </Link>
+
       {window.location.href.includes('details') ? (
         <Link className='backBtn' to='/'>
           Back
@@ -142,10 +160,10 @@ const NavigationBar = () => {
       )}
 
       {loggedUser.Username !== undefined ? (
-        <p>
-          welcome back , {loggedUser.Username}{' '}
+        <WelcomeP>
+          {loggedUser.Username}
           <button onClick={() => setLoggedUser({})}>Logout</button>
-        </p>
+        </WelcomeP>
       ) : (
         <LogInButton onClick={() => setOpenModal(true)}>Log In</LogInButton>
       )}
