@@ -154,25 +154,22 @@ const Login = () => {
       : (document.querySelector('body').style.overflow = 'unset');
   }, [openModal]);
   const UserRegister = (user, pass, email) => {
-    if (user && pass) {
+    if (user !== '' && pass !== '' && email !== '') {
       let newUser = {
         Username: user,
         Password: pass,
         Email: email.toLowerCase()
       };
       let users = JSON.parse(localStorage.getItem('users')) || [];
-      let existingUser = users.find(
-        (el) => el.Email === newUser.Email && el.Password === newUser.Password
-      );
+      let existingUser = users.find((el) => el.Email === newUser.Email);
       if (existingUser) {
-        console.log('user already exists');
+        alert('Email is already in use!');
       } else {
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
+        document.getElementById('userName').value = '';
+        document.getElementById('passWord').value = '';
       }
-      document.getElementById('userName').value = '';
-      document.getElementById('passWord').value = '';
-      // document.getElementById('eMail').value = '';
     } else {
       console.log('greska');
     }
@@ -223,6 +220,7 @@ const Login = () => {
                     autoComplete='off'
                     onChange={(e) => setEmail(e.target.value)}
                   />
+
                   <label>Password</label>
                   <input
                     type='password'
@@ -258,13 +256,16 @@ const Login = () => {
                     id='eMail'
                     autoComplete='off'
                     onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
+
                   <label>Username</label>
                   <input
                     type='text'
                     id='userName'
                     autoComplete='off'
                     onChange={(e) => setUsername(e.target.value)}
+                    required
                   />
                   <label>Password</label>
                   <input
@@ -272,12 +273,13 @@ const Login = () => {
                     id='passWord'
                     autoComplete='off'
                     onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
                   <button
                     onClick={(e) => {
                       e.preventDefault();
                       UserRegister(username, password, email);
-                      setLoginOrRegister('login');
+                      // setLoginOrRegister('login');
                     }}
                   >
                     Register
