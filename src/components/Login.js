@@ -31,6 +31,7 @@ const ModalCont = styled.div`
   width: calc(100vw - 70%);
   height: calc(100vh - 30%);
   align-items: center;
+  overflow: hidden;
   background: rgb(0, 0, 0);
   background: -moz-linear-gradient(
     0deg,
@@ -92,7 +93,10 @@ const InputForm = styled.form`
   justify-content: center;
   align-items: center;
   width: 100%;
-
+  .userNameLabel {
+    margin-top: -20px;
+    transition: 0.6s;
+  }
   input {
     width: 80%;
     padding: 3px 10px;
@@ -140,6 +144,11 @@ const ForgotPassDiv = styled.div`
   justify-content: space-around;
   width: 100%;
 `;
+const WrongMailP = styled.p`
+  margin: 3px 0px;
+  transform: translate(-300px, 0px);
+  transition: 0.6s;
+`;
 const Login = () => {
   const { openModal, setOpenModal, setLoggedUser, loggedUser } =
     useContext(Context);
@@ -163,12 +172,20 @@ const Login = () => {
       let users = JSON.parse(localStorage.getItem('users')) || [];
       let existingUser = users.find((el) => el.Email === newUser.Email);
       if (existingUser) {
-        alert('Email is already in use!');
+        document.querySelector('.userNameLabel').style.marginTop = '20px';
+        document.querySelector('.wrongMail').style.transform =
+          'translate(0px, 0px)';
+        setTimeout(() => {
+          document.querySelector('.wrongMail').style.transform =
+            'translate(-300px, 0px)';
+          document.querySelector('.userNameLabel').style.marginTop = '-20px';
+        }, 2000);
       } else {
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
         document.getElementById('userName').value = '';
         document.getElementById('passWord').value = '';
+        setLoginOrRegister('login');
       }
     } else {
       console.log('greska');
@@ -182,7 +199,20 @@ const Login = () => {
         el.Email === pendingUser.Email.toLowerCase() &&
         el.Password === pendingUser.Password
     );
-    newUser ? setLoggedUser(newUser) : console.log('user not found');
+    if (newUser) {
+      setLoggedUser(newUser);
+      setOpenModal(false);
+    } else {
+      document.querySelector('.userNameLabel').style.marginTop = '20px';
+      document.querySelector('.wrongMail').style.transform =
+        'translate(0px, 0px)';
+      setTimeout(() => {
+        document.querySelector('.wrongMail').style.transform =
+          'translate(-300px, 0px)';
+        document.querySelector('.userNameLabel').style.marginTop = '-20px';
+      }, 2000);
+    }
+
     document.getElementById('userName').value = '';
     document.getElementById('passWord').value = '';
   };
@@ -208,7 +238,7 @@ const Login = () => {
             ) : loginOrRegister == 'register' ? (
               <h1>Register</h1>
             ) : (
-              <h1>Password Recover</h1>
+              <h1>Password Recovery</h1>
             )}
             {loginOrRegister === 'login' ? (
               <>
@@ -220,8 +250,8 @@ const Login = () => {
                     autoComplete='off'
                     onChange={(e) => setEmail(e.target.value)}
                   />
-
-                  <label>Password</label>
+                  <WrongMailP className='wrongMail'>User not found!</WrongMailP>
+                  <label className='userNameLabel'>Password</label>
                   <input
                     type='password'
                     id='passWord'
@@ -232,7 +262,6 @@ const Login = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       UserLogin(email, password);
-                      setOpenModal(false);
                     }}
                   >
                     Login
@@ -258,8 +287,10 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
-
-                  <label>Username</label>
+                  <WrongMailP className='wrongMail'>
+                    Email already in use!
+                  </WrongMailP>
+                  <label className='userNameLabel'>Username</label>
                   <input
                     type='text'
                     id='userName'
@@ -279,7 +310,6 @@ const Login = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       UserRegister(username, password, email);
-                      // setLoginOrRegister('login');
                     }}
                   >
                     Register

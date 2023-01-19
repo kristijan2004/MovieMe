@@ -58,7 +58,7 @@ const GenreContainer = styled.div`
         color: #c83232;
       }
       @media only screen and (max-width: 768px) {
-        font-size: 13px;
+        font-size: 17px;
       }
     }
   }

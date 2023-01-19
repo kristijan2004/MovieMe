@@ -62,6 +62,11 @@ const Search = styled.form`
   @media only screen and (max-width: 768px) {
     width: 40%;
   }
+  @media only screen and (max-width: 550px) {
+    &::before {
+      top: 17px;
+    }
+  }
 `;
 const Input = styled.input`
   border: none;
@@ -102,7 +107,7 @@ const WelcomeP = styled.p`
   color: white;
   text-transform: capitalize;
   border-top: 1px solid white;
-  margin-right: 10px;
+
   button {
     background-color: transparent;
     color: white;
@@ -112,6 +117,19 @@ const WelcomeP = styled.p`
     font-size: 17px;
     margin-left: 3px;
     cursor: pointer;
+  }
+  @media screen and (min-width: 320px) and (max-width: 425px) {
+    font-size: 12px;
+    button {
+      font-size: 12px;
+      border-right: 1px solid white;
+    }
+  }
+  @media screen and (min-width: 426px) and (max-width: 800px) {
+    font-size: 14px;
+    button {
+      font-size: 14px;
+    }
   }
 `;
 
