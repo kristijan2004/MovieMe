@@ -146,8 +146,9 @@ const ForgotPassDiv = styled.div`
 `;
 const WrongMailP = styled.p`
   margin: 3px 0px;
-  transform: translate(-300px, 0px);
+  transform: translate(-1000px, 0px);
   transition: 0.6s;
+  min-height: 19px;
 `;
 const Login = () => {
   const { openModal, setOpenModal, setLoggedUser, loggedUser } =
@@ -162,33 +163,76 @@ const Login = () => {
       ? (document.querySelector('body').style.overflow = 'hidden')
       : (document.querySelector('body').style.overflow = 'unset');
   }, [openModal]);
+  function validateEmail(email) {
+    var re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
   const UserRegister = (user, pass, email) => {
     if (user !== '' && pass !== '' && email !== '') {
-      let newUser = {
-        Username: user,
-        Password: pass,
-        Email: email.toLowerCase()
-      };
-      let users = JSON.parse(localStorage.getItem('users')) || [];
-      let existingUser = users.find((el) => el.Email === newUser.Email);
-      if (existingUser) {
+      if (validateEmail(email)) {
+        let newUser = {
+          Username: user,
+          Password: pass,
+          Email: email.toLowerCase()
+        };
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let existingUser = users.find((el) => el.Email === newUser.Email);
+        if (existingUser) {
+          document.querySelector('.userNameLabel').style.marginTop = '20px';
+          document.querySelector('.wrongMail').style.transform =
+            'translate(0px, 0px)';
+          setTimeout(() => {
+            document.querySelector('.wrongMail').style.transform =
+              'translate(-1000px, 0px)';
+            document.querySelector('.userNameLabel').style.marginTop = '-20px';
+          }, 2000);
+        } else {
+          users.push(newUser);
+          localStorage.setItem('users', JSON.stringify(users));
+          document.getElementById('userName').value = '';
+          document.getElementById('passWord').value = '';
+          setLoginOrRegister('login');
+          document.querySelector('.wrongMail').innerHTML =
+            'Registration successful!';
+          document.querySelector('.userNameLabel').style.marginTop = '20px';
+          document.querySelector('.wrongMail').style.transform =
+            'translate(0px, 0px)';
+          setTimeout(() => {
+            document.querySelector('.wrongMail').style.transform =
+              'translate(-1000px, 0px)';
+            document.querySelector('.userNameLabel').style.marginTop = '-20px';
+          }, 2000);
+          setEmail('');
+          setPassword('');
+          setUsername('');
+          document.getElementById('userName').value = '';
+          document.getElementById('passWord').value = '';
+          document.getElementById('eMail').value = '';
+        }
+      } else {
+        document.querySelector('.wrongMail').innerHTML =
+          'Invalid email address!';
         document.querySelector('.userNameLabel').style.marginTop = '20px';
         document.querySelector('.wrongMail').style.transform =
           'translate(0px, 0px)';
         setTimeout(() => {
           document.querySelector('.wrongMail').style.transform =
-            'translate(-300px, 0px)';
+            'translate(-1000px, 0px)';
           document.querySelector('.userNameLabel').style.marginTop = '-20px';
         }, 2000);
-      } else {
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
-        document.getElementById('userName').value = '';
-        document.getElementById('passWord').value = '';
-        setLoginOrRegister('login');
       }
     } else {
-      console.log('greska');
+      document.querySelector('.wrongMail').innerHTML =
+        'Please fill all the fields!';
+      document.querySelector('.userNameLabel').style.marginTop = '20px';
+      document.querySelector('.wrongMail').style.transform =
+        'translate(0px, 0px)';
+      setTimeout(() => {
+        document.querySelector('.wrongMail').style.transform =
+          'translate(-1000px, 0px)';
+        document.querySelector('.userNameLabel').style.marginTop = '-20px';
+      }, 2000);
     }
   };
   const UserLogin = (email, pass) => {
@@ -199,28 +243,75 @@ const Login = () => {
         el.Email === pendingUser.Email.toLowerCase() &&
         el.Password === pendingUser.Password
     );
+
     if (newUser) {
       setLoggedUser(newUser);
       setOpenModal(false);
+      setEmail('');
+      setPassword('');
+      setUsername('');
     } else {
+      document.querySelector('.wrongMail').innerHTML = 'User not found!';
       document.querySelector('.userNameLabel').style.marginTop = '20px';
       document.querySelector('.wrongMail').style.transform =
         'translate(0px, 0px)';
       setTimeout(() => {
         document.querySelector('.wrongMail').style.transform =
-          'translate(-300px, 0px)';
+          'translate(-1000px, 0px)';
         document.querySelector('.userNameLabel').style.marginTop = '-20px';
       }, 2000);
+      setEmail('');
+      setPassword('');
+      setUsername('');
     }
-
     document.getElementById('userName').value = '';
     document.getElementById('passWord').value = '';
   };
   const ForgotPassword = (email) => {
     let users = JSON.parse(localStorage.getItem('users'));
     let pendingUser = { Email: email };
-    let noPassUser = users.find((el) => el.Email === pendingUser.Email);
-    alert(`Your password is ${noPassUser.Password}`);
+    if (validateEmail(email)) {
+      let noPassUser = users.find((el) => el.Email === pendingUser.Email);
+      if (noPassUser) {
+        document.querySelector('.wrongMail').innerHTML =
+          'Your password is ' + noPassUser.Password;
+        document.querySelector('.wrongMail').style.transform =
+          'translate(0px, 0px)';
+        setTimeout(() => {
+          document.querySelector('.wrongMail').style.transform =
+            'translate(-1000px, 0px)';
+        }, 5000);
+        setEmail('');
+        setPassword('');
+        setUsername('');
+        // alert(`Your password is ${noPassUser.Password}`);
+        document.getElementById('userName').value = '';
+        document.getElementById('passWord').value = '';
+        document.getElementById('eMail').value = '';
+      } else {
+        document.querySelector('.wrongMail').style.transform =
+          'translate(0px, 0px)';
+        setTimeout(() => {
+          document.querySelector('.wrongMail').style.transform =
+            'translate(-1000px, 0px)';
+        }, 2000);
+        setEmail('');
+        setPassword('');
+        setUsername('');
+      }
+    } else {
+      document.querySelector('.wrongMail').innerHTML =
+        'Please enter a valid email address!';
+      document.querySelector('.wrongMail').style.transform =
+        'translate(0px, 0px)';
+      setTimeout(() => {
+        document.querySelector('.wrongMail').style.transform =
+          'translate(-1000px, 0px)';
+      }, 2000);
+      setEmail('');
+      setPassword('');
+      setUsername('');
+    }
   };
   return (
     <>
@@ -250,7 +341,9 @@ const Login = () => {
                     autoComplete='off'
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <WrongMailP className='wrongMail'>User not found!</WrongMailP>
+                  <WrongMailP className='wrongMail'>
+                    Successfull registration!
+                  </WrongMailP>
                   <label className='userNameLabel'>Password</label>
                   <input
                     type='password'
@@ -329,6 +422,9 @@ const Login = () => {
                     autoComplete='off'
                     onChange={(e) => setEmail(e.target.value)}
                   />
+                  <WrongMailP className='wrongMail'>
+                    Unknown email address!
+                  </WrongMailP>
                 </InputForm>
                 <ForgotPassDiv>
                   <LastBtn onClick={() => setLoginOrRegister('login')}>
